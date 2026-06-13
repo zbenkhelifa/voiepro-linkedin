@@ -1,25 +1,21 @@
 const fetch = (...args) => import('node-fetch').then(({ default: f }) => f(...args));
 const posts = require('./posts.json');
 
-async function getPersonId(token) {
-  const res = await fetch('https://api.linkedin.com/v2/userinfo', {
-    headers: { 'Authorization': `Bearer ${token}` },
-  });
-  if (!res.ok) throw new Error(`Impossible de récupérer le profil : ${res.status}`);
-  const data = await res.json();
-  return data.sub;
-}
-
 async function postToLinkedIn() {
   const token = process.env.LINKEDIN_ACCESS_TOKEN;
+  const personUrn = process.env.LINKEDIN_PERSON_URN;
 
   if (!token) {
     console.error('❌ Variable manquante : LINKEDIN_ACCESS_TOKEN');
     process.exit(1);
   }
+  if (!personUrn) {
+    console.error('❌ Variable manquante : LINKEDIN_PERSON_URN (ex: urn:li:person:XXXXXXXXX)');
+    process.exit(1);
+  }
 
-  const personId = await getPersonId(token);
-  console.log('👤 Profil LinkedIn :', personId);
+  const author = personUrn.startsWith('urn:li:') ? personUrn : `urn:li:person:${personUrn}`;
+  console.log('👤 Auteur :', author);
 
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
@@ -29,8 +25,6 @@ async function postToLinkedIn() {
 
   console.log(`Jour ${dayOfYear} → post #${index}`);
   console.log('Contenu :', text);
-
-  const author = personId.startsWith('urn:li:') ? personId : `urn:li:person:${personId}`;
 
   const response = await fetch('https://api.linkedin.com/rest/posts', {
     method: 'POST',

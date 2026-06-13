@@ -2,12 +2,12 @@ const fetch = (...args) => import('node-fetch').then(({ default: f }) => f(...ar
 const posts = require('./posts.json');
 
 async function getPersonId(token) {
-  const res = await fetch('https://api.linkedin.com/v2/me', {
+  const res = await fetch('https://api.linkedin.com/v2/userinfo', {
     headers: { 'Authorization': `Bearer ${token}` },
   });
   if (!res.ok) throw new Error(`Impossible de récupérer le profil : ${res.status}`);
   const data = await res.json();
-  return data.id;
+  return data.sub;
 }
 
 async function postToLinkedIn() {

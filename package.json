@@ -1,0 +1,11 @@
+{
+  "name": "voiepro-linkedin",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "post": "node post-linkedin.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

@@ -1,0 +1,23 @@
+name: Post LinkedIn quotidien
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # tous les jours à 8h UTC (10h Paris)
+  workflow_dispatch: # permet de lancer manuellement
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm install
+
+      - name: Publier le post LinkedIn
+        run: node post-linkedin.js
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}

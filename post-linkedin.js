@@ -26,25 +26,25 @@ async function postToLinkedIn() {
   console.log(`Jour ${dayOfYear} → post #${index}`);
   console.log('Contenu :', text);
 
-  const response = await fetch('https://api.linkedin.com/rest/posts', {
+  const response = await fetch('https://api.linkedin.com/v2/ugcPosts', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
-      'LinkedIn-Version': '202412',
       'X-Restli-Protocol-Version': '2.0.0',
     },
     body: JSON.stringify({
       author,
-      commentary: text,
-      visibility: 'PUBLIC',
-      distribution: {
-        feedDistribution: 'MAIN_FEED',
-        targetEntities: [],
-        thirdPartyDistributionChannels: [],
-      },
       lifecycleState: 'PUBLISHED',
-      isReshareDisabledByAuthor: false,
+      specificContent: {
+        'com.linkedin.ugc.ShareContent': {
+          shareCommentary: { text },
+          shareMediaCategory: 'NONE',
+        },
+      },
+      visibility: {
+        'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC',
+      },
     }),
   });
 

@@ -5,8 +5,13 @@ const PROMPT_SYSTEM = `Tu es le community manager de VoiePro, une application nu
 
 Ton rôle : écrire des posts LinkedIn qui informent, inspirent et génèrent de l'engagement autour de la voie professionnelle.`;
 
-const PROMPT_USER = (theme) => `Écris un post LinkedIn sur ce thème : "${theme}"
+const PROMPT_USER = (theme, news) => {
+  const newsSection = news
+    ? `\nActualités récentes du secteur (inspire-toi en si une est pertinente, sans les citer mot pour mot) :\n${news}\n`
+    : '';
 
+  return `Écris un post LinkedIn sur ce thème : "${theme}"
+${newsSection}
 Format :
 - Accroche forte en 1 ligne (commence par un émoji)
 - 2 à 3 paragraphes courts et concrets (1-2 phrases chacun)
@@ -19,6 +24,7 @@ Contraintes :
 - Pas de titres ou sous-titres en gras
 - Maximum 1200 caractères espaces compris
 - En français uniquement`;
+};
 
 async function generatePost() {
   const apiKey = process.env.MISTRAL_API_KEY;
@@ -42,6 +48,11 @@ async function generatePost() {
     console.log(`🗓️  Jour ${day} → pilier "${pillarKey}" → thème : ${theme}`);
   }
 
+  const news = (process.env.NEWS_CONTEXT || '').trim();
+  if (news) {
+    console.log(`\n📰 Contexte actualité injecté (${news.split('\n').length} articles)`);
+  }
+
   const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -52,7 +63,7 @@ async function generatePost() {
       model: 'mistral-small-latest',
       messages: [
         { role: 'system', content: PROMPT_SYSTEM },
-        { role: 'user', content: PROMPT_USER(theme) },
+        { role: 'user', content: PROMPT_USER(theme, news) },
       ],
       max_tokens: 600,
       temperature: 0.85,

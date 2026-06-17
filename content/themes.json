@@ -1,0 +1,39 @@
+{
+  "planning": {
+    "1": "etudiant",
+    "3": "etablissement",
+    "5": "secteur"
+  },
+  "pilliers": {
+    "etudiant": [
+      "Comment trouver une entreprise pour son stage en lycée professionnel quand on ne sait pas par où commencer",
+      "Les droits de l'élève stagiaire : ce que peu d'élèves savent avant de signer leur convention",
+      "Réussir sa PFMP : les réflexes concrets à adopter dès le premier jour en entreprise",
+      "Comment transformer son stage en contrat d'apprentissage : les signaux à repérer",
+      "Le livret de suivi de stage : à quoi ça sert vraiment et comment le remplir sans stress",
+      "Préparer son entretien de recherche de stage en Bac Pro ou BTS : ce qui fait vraiment la différence",
+      "Les erreurs classiques pendant une PFMP et comment les éviter",
+      "Alternance vs stage classique : ce qu'il faut vraiment comparer avant de choisir sa voie"
+    ],
+    "etablissement": [
+      "Comment les équipes pédagogiques gagnent du temps sur la gestion administrative des PFMP",
+      "Suivi numérique des stages : ce que ça change concrètement pour les enseignants référents",
+      "La convention de stage dématérialisée : retour d'expérience d'un lycée professionnel",
+      "Fluidifier la communication entre l'école, l'élève et l'entreprise pendant le stage",
+      "Organiser 22 semaines de PFMP sur 3 ans en Bac Pro : les outils qui aident",
+      "CFA et apprentissage massifié : comment tenir le rythme administratif sans s'épuiser",
+      "Le bilan de PFMP co-signé : simplifier l'évaluation entre enseignant et maître de stage",
+      "De la paperasse au numérique : ce que les lycées pro ont gagné en digitalisant leurs stages"
+    ],
+    "secteur": [
+      "980 000 contrats d'apprentissage signés en 2023 : ce que ça dit de la voie professionnelle aujourd'hui",
+      "VoiePro : comment on connecte élèves, établissements et entreprises en un seul outil",
+      "La voie professionnelle n'est plus une voie de garage : les chiffres d'insertion qui parlent",
+      "Signature électronique des conventions de stage : ce que ça change pour tout le monde",
+      "EdTech et lycée pro : pourquoi le numérique pénètre enfin ce secteur",
+      "90% des apprentis trouvent un emploi dans les 7 mois : ce que les entreprises savent déjà",
+      "Maîtres de stage et tuteurs : un rôle clé souvent sous-équipé en outils",
+      "Comment VoiePro réduit le temps admin des conventions de stage de 80%"
+    ]
+  }
+}

@@ -1,9 +1,14 @@
-name: Post LinkedIn quotidien
+name: Post LinkedIn VoiePro
 
 on:
   schedule:
-    - cron: '0 8 * * *' # tous les jours à 8h UTC (10h Paris)
-  workflow_dispatch: # permet de lancer manuellement
+    - cron: '0 8 * * 1,3,5' # Lun/Mer/Ven à 8h UTC (10h Paris)
+  workflow_dispatch:
+    inputs:
+      theme:
+        description: 'Thème personnalisé (optionnel — laisse vide pour le thème du jour)'
+        required: false
+        default: ''
 
 jobs:
   post:
@@ -17,7 +22,16 @@ jobs:
 
       - run: npm install
 
-      - name: Publier le post LinkedIn
+      - name: Générer le post avec Mistral AI
+        run: node scripts/generate_post.js
+        env:
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          CUSTOM_THEME: ${{ inputs.theme }}
+
+      - name: Valider le post
+        run: node scripts/validate_post.js
+
+      - name: Publier sur LinkedIn
         run: node post-linkedin.js
         env:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}

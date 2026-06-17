@@ -36,16 +36,23 @@ async function generatePost() {
   const customTheme = (process.env.CUSTOM_THEME || '').trim();
   let theme;
 
+  let pillarKey = 'secteur';
+
   if (customTheme) {
     theme = customTheme;
     console.log('🎯 Thème personnalisé :', theme);
   } else {
     const day = new Date().getDay(); // 0=Dim ... 6=Sam
-    const pillarKey = themes.planning[day] || 'secteur';
+    pillarKey = themes.planning[day] || 'secteur';
     const pillar = themes.pilliers[pillarKey];
     const weekIndex = Math.floor(Date.now() / (7 * 86400000));
     theme = pillar[weekIndex % pillar.length];
     console.log(`🗓️  Jour ${day} → pilier "${pillarKey}" → thème : ${theme}`);
+  }
+
+  const envFile = process.env.GITHUB_ENV;
+  if (envFile) {
+    fs.appendFileSync(envFile, `PILLAR_KEY=${pillarKey}\n`);
   }
 
   const news = (process.env.NEWS_CONTEXT || '').trim();

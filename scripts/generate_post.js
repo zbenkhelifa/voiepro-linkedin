@@ -35,7 +35,6 @@ async function generatePost() {
 
   const customTheme = (process.env.CUSTOM_THEME || '').trim();
   let theme;
-
   let pillarKey = 'secteur';
 
   if (customTheme) {
@@ -48,11 +47,6 @@ async function generatePost() {
     const weekIndex = Math.floor(Date.now() / (7 * 86400000));
     theme = pillar[weekIndex % pillar.length];
     console.log(`🗓️  Jour ${day} → pilier "${pillarKey}" → thème : ${theme}`);
-  }
-
-  const envFile = process.env.GITHUB_ENV;
-  if (envFile) {
-    fs.appendFileSync(envFile, `PILLAR_KEY=${pillarKey}\n`);
   }
 
   const news = (process.env.NEWS_CONTEXT || '').trim();
@@ -89,13 +83,15 @@ async function generatePost() {
   console.log('\n📝 Post généré :\n' + text);
   console.log(`\n📊 Longueur : ${text.length} caractères`);
 
-  // Passage au step suivant via GITHUB_ENV (multiline)
+  // Écriture dans GITHUB_ENV (les deux variables d'un coup)
   const envFile = process.env.GITHUB_ENV;
   if (envFile) {
+    fs.appendFileSync(envFile, `PILLAR_KEY=${pillarKey}\n`);
     fs.appendFileSync(envFile, `POST_TEXT<<__VOIEPRO_EOF__\n${text}\n__VOIEPRO_EOF__\n`);
   } else {
     // Fallback local
     fs.writeFileSync('/tmp/post.txt', text, 'utf8');
+    console.log(`\n🔑 PILLAR_KEY=${pillarKey}`);
   }
 }
 
